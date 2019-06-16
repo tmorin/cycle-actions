@@ -1,0 +1,27 @@
+image: alpine:latest
+
+stages:
+  - build
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - npm install
+
+node:12:
+  image: node:12-alpine
+  stage: build
+  script:
+    - npm run test
+    - npm run build
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+  artifacts:
+    paths:
+      - coverage/
+      - lib/
+    reports:
+      junit:
+        - packages/coverage/junit.xml
