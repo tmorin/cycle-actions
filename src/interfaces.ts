@@ -9,21 +9,21 @@ export interface ActionHandler {
    * @param action the action
    * @return an optional output which can be embedded within a Promise
    */
-  (action: Action): ActionOutput | void | Promise<ActionOutput | void>
+  (action: Action): any | void | Promise<any | void>
 }
 
 /**
  * The map of action handlers.
- * To be handled, the {@link Message.type} of the {@link Action} must match the key of the {@link ActionHandlers} object.
+ * To be handled, the {@link Action.type} of the {@link Action} must match the key of the {@link ActionHandlers} object.
  */
 export type ActionHandlers = {
   [k: string]: ActionHandler
 }
 
 /**
- * A message is defined by a type and an optional payload.
+ * An action is a message which will be handled by an {@link ActionHandler}.
  */
-export interface Message {
+export interface Action {
   /**
    * The type of the message.
    */
@@ -32,12 +32,6 @@ export interface Message {
    * The optional payload.
    */
   payload?: any
-}
-
-/**
- * An action is a message which will be handled by an {@link ActionHandler}.
- */
-export interface Action extends Message {
   /**
    * The category is used to select action's results via {@link ActionsSource.select}.
    */
@@ -50,37 +44,21 @@ export interface Action extends Message {
 }
 
 /**
- * An event is a message which can be published by a {@link ActionOutput.events}.
- */
-export interface Event extends Message {
-}
-
-/**
- * An action output is the result of an {@link ActionHandler}.
- */
-export interface ActionOutput {
-  /**
-   * The response should be used to provide direct feedback to the caller.
-   */
-  response: any
-  /**
-   * The events should be used to notified underlying side effects.
-   */
-  events: Array<Event>
-}
-
-/**
  * An action result is used internally to build the source part.
  */
 export interface ActionResult {
   /**
-   * Reflect {@link ActionOutput.response}, but with a default value if undefined
+   * The request.
+   */
+  request: Action
+  /**
+   * The response related to the handled action.
    */
   response?: any
   /**
-   * Reflect {@link ActionOutput.events}, but with a default value if undefined
+   * The error raised during the handling of the action.
    */
-  events: Array<Event>
+  error?: any
 }
 
 /**
@@ -92,7 +70,6 @@ export type ActionStream = Stream<Action>
  * A stream of action result.
  */
 export interface ActionResultStream extends Stream<ActionResult> {
-  request: Action
 }
 
 /**
@@ -100,15 +77,15 @@ export interface ActionResultStream extends Stream<ActionResult> {
  */
 export interface SelectedResults {
   /**
-   * The filtered stream of result streams.
+   * The stream of results.
    */
-  result$$: Stream<ActionResultStream>
+  result$: ActionResultStream
   /**
-   * The filtered flatten stream of responses.
+   * The stream of responses.
    */
   response$: Stream<any>
   /**
-   * The filtered flatten stream of events.
+   * The stream of errors.
    */
-  event$: Stream<Event>
+  error$: Stream<any>
 }

@@ -1,5 +1,5 @@
 import {Action, ActionResult, ActionResultStream, ActionsSource} from '../src/driver';
-import xs, {Stream} from 'xstream';
+import xs from 'xstream';
 
 interface Transaction {
   request: Action,
@@ -9,7 +9,7 @@ interface Transaction {
 describe('ActionsSource.isolateSource', () => {
   let actions: Array<Action>;
   let transactions: Array<Transaction>;
-  let streamOfActionResults: Stream<ActionResultStream>;
+  let streamOfActionResults: ActionResultStream;
 
   beforeEach(() => {
     actions = [
@@ -25,10 +25,7 @@ describe('ActionsSource.isolateSource', () => {
       }
     }));
     streamOfActionResults = xs.fromArray(transactions.map(
-      ({request, result}) => Object.assign(
-        xs.of(result),
-        {request: request}
-      )
+      ({result}) => result
     ));
   });
 
@@ -37,13 +34,9 @@ describe('ActionsSource.isolateSource', () => {
 
     const readActionResults: Array<ActionResult> = [];
 
-    ActionsSource.isolateSource(main, 'ns1').select().result$$.subscribe({
-      next(result$) {
-        result$.subscribe({
-          next(result: ActionResult) {
-            readActionResults.push(result);
-          }
-        })
+    ActionsSource.isolateSource(main, 'ns1').select().result$.subscribe({
+      next(result: ActionResult) {
+        readActionResults.push(result);
       }
     });
 
@@ -60,13 +53,9 @@ describe('ActionsSource.isolateSource', () => {
 
     const readActionResults: Array<ActionResult> = [];
 
-    ActionsSource.isolateSource(main, null).select().result$$.subscribe({
-      next(result$) {
-        result$.subscribe({
-          next(result: ActionResult) {
-            readActionResults.push(result);
-          }
-        })
+    ActionsSource.isolateSource(main, null).select().result$.subscribe({
+      next(result: ActionResult) {
+        readActionResults.push(result);
       }
     });
 

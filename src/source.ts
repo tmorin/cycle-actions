@@ -1,4 +1,4 @@
-import xs, {Stream} from 'xstream';
+import xs from 'xstream';
 import {adapt} from '@cycle/run/lib/adapt';
 import {Action, ActionResultStream, ActionStream, SelectedResults} from './interfaces';
 
@@ -24,7 +24,7 @@ export function arrayEqual(a1: Array<string>, a2: Array<string>): boolean {
 export class ActionsSource {
 
   constructor(
-    public result$$: Stream<ActionResultStream>,
+    public result$: ActionResultStream,
     public readonly name?: string,
     public readonly namespace: Array<string> = []
   ) {
@@ -85,7 +85,7 @@ export class ActionsSource {
     scope?: string
   ): ActionsSource {
 
-    const filteredResponse$$ = this.result$$.filter(result$ => predicate(result$.request));
+    const filteredResponse$$ = this.result$.filter(result => predicate(result.request));
     return new ActionsSource(
       filteredResponse$$,
       this.name,
@@ -99,20 +99,19 @@ export class ActionsSource {
    * @returns the selected results
    */
   public select(category?: string): SelectedResults {
-    let result$$ = category
-      ? this.result$$.filter(result$ => result$ && result$.request.category === category)
-      : this.result$$;
-    result$$ = adapt(result$$);
+    let result$ = category
+      ? this.result$.filter(result => result && result.request.category === category)
+      : this.result$;
 
-    const response$ = result$$.map(result$ => {
-      return result$.filter(result => result.response).map(result => result.response)
-    }).flatten();
+    result$ = adapt(result$);
 
-    const event$ = result$$.map(result$ => {
-      return result$.filter(result => result.response).map(result => xs.fromArray(result.events)).flatten()
-    }).flatten();
+    const response$ = result$.filter(result => !!result.response)
+      .map(result => result.response);
 
-    return {result$$, response$, event$};
+    const error$ = result$.filter(result => !!result.error)
+      .map(result => result.error);
+
+    return {result$, response$, error$};
   }
 
 }

@@ -1,19 +1,16 @@
 import run from '@cycle/run';
 import xs, {Stream} from 'xstream';
-import {Action, ActionOutput, ActionResult, ActionsSource, Event, makeActionsDriver} from '../src/driver';
+import {Action, ActionResult, ActionsSource, makeActionsDriver, SelectedResults} from '../src/driver';
 
-function syncAction(action: Action): ActionOutput {
-  return {
-    response: action.payload,
-    events: [{type: `event-${action.type}`, payload: action.payload}]
-  }
+function syncAction(action: Action): any {
+  return action.payload
 }
 
-async function asyncAction(action: Action): Promise<ActionOutput> {
+async function asyncAction(action: Action): Promise<any> {
   return syncAction(action);
 }
 
-function failedAction(): ActionOutput {
+function failedAction(): any {
   throw new Error('an error');
 }
 
@@ -21,33 +18,25 @@ describe('driver', () => {
   let actions: Array<Action>;
   let actions$: Stream<Action>;
   let readResponses: Array<any>;
-  let readEvents: Array<Event>;
-  let readResults: Array<ActionResult>;
   let readErrors: Array<any>;
+  let readResults: Array<ActionResult>;
 
-  function read({result$$, response$, event$}: any) {
+  function read({result$, response$, error$}: SelectedResults) {
     response$.subscribe({
       next(response: any) {
         readResponses.push(response);
       }
     });
-    event$.subscribe({
-      next(event: Event) {
-        readEvents.push(event);
+    error$.subscribe({
+      next(error: any) {
+        readErrors.push(error);
       }
     });
-    result$$.subscribe({
-      next(result$: Stream<ActionResult>) {
-        result$.subscribe({
-          next(result: ActionResult) {
-            readResults.push(result)
-          },
-          error(error) {
-            readErrors.push(error);
-          }
-        })
+    result$.subscribe({
+      next(result: ActionResult) {
+        readResults.push(result)
       }
-    });
+    })
   }
 
   beforeEach(() => {
@@ -58,20 +47,18 @@ describe('driver', () => {
     ];
     actions$ = xs.fromArray(actions);
     readResponses = [];
-    readEvents = [];
     readResults = [];
     readErrors = [];
   });
 
   it('should trigger action and select results', (done) => {
     const dispose = run((sources: any) => {
-      const {result$$, response$, event$} = (sources.ACTIONS as ActionsSource).select();
-      read({result$$, response$, event$});
+      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource).select();
+      read({result$, response$, error$});
 
-      result$$.subscribe({
+      result$.subscribe({
         complete() {
           expect(readResponses).toHaveLength(actions.length);
-          expect(readEvents).toHaveLength(actions.length);
           expect(readResults).toHaveLength(actions.length);
           expect(readErrors).toHaveLength(0);
           done();
@@ -83,7 +70,8 @@ describe('driver', () => {
       };
     }, {
       ACTIONS: makeActionsDriver({
-        action0: asyncAction, action1: syncAction
+        action0: asyncAction,
+        action1: syncAction
       })
     });
     setTimeout(() => dispose(), 10);
@@ -91,15 +79,14 @@ describe('driver', () => {
 
   it('should trigger actions and filter them', (done) => {
     const dispose = run((sources: any) => {
-      const {result$$, response$, event$} = (sources.ACTIONS as ActionsSource)
+      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource)
         .filter(action => action.type === 'action0')
         .select();
-      read({result$$, response$, event$});
+      read({result$, response$, error$});
 
-      result$$.subscribe({
+      result$.subscribe({
         complete() {
           expect(readResponses).toHaveLength(2);
-          expect(readEvents).toHaveLength(2);
           expect(readResults).toHaveLength(2);
           expect(readErrors).toHaveLength(0);
           done();
@@ -111,7 +98,8 @@ describe('driver', () => {
       };
     }, {
       ACTIONS: makeActionsDriver({
-        action0: asyncAction, action1: syncAction
+        action0: asyncAction,
+        action1: syncAction
       })
     });
     setTimeout(() => dispose(), 10);
@@ -119,13 +107,12 @@ describe('driver', () => {
 
   it('should trigger actions and select them by category', (done) => {
     const dispose = run((sources: any) => {
-      const {result$$, response$, event$} = (sources.ACTIONS as ActionsSource).select('category0');
-      read({result$$, response$, event$});
+      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource).select('category0');
+      read({result$, response$, error$});
 
-      result$$.subscribe({
+      result$.subscribe({
         complete() {
           expect(readResponses).toHaveLength(1);
-          expect(readEvents).toHaveLength(1);
           expect(readResults).toHaveLength(1);
           expect(readErrors).toHaveLength(0);
           done();
@@ -137,7 +124,8 @@ describe('driver', () => {
       };
     }, {
       ACTIONS: makeActionsDriver({
-        action0: asyncAction, action1: syncAction
+        action0: asyncAction,
+        action1: syncAction
       })
     });
     setTimeout(() => dispose(), 10);
@@ -145,16 +133,15 @@ describe('driver', () => {
 
   it('should managed failed action', (done) => {
     const dispose = run((sources: any) => {
-      const {result$$, response$, event$} = (sources.ACTIONS as ActionsSource)
+      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource)
         .filter(action => action.type === 'action1').select();
-      read({result$$, response$, event$});
+      read({result$, response$, error$});
 
-      result$$.subscribe({
+      result$.subscribe({
         complete() {
           expect(readErrors).toHaveLength(1);
           expect(readResponses).toHaveLength(0);
-          expect(readEvents).toHaveLength(0);
-          expect(readResults).toHaveLength(0);
+          expect(readResults).toHaveLength(1);
           done();
         }
       });
@@ -164,7 +151,8 @@ describe('driver', () => {
       };
     }, {
       ACTIONS: makeActionsDriver({
-        action0: asyncAction, action1: failedAction
+        action0: asyncAction,
+        action1: failedAction
       })
     });
     setTimeout(() => dispose(), 10);
@@ -172,15 +160,14 @@ describe('driver', () => {
 
   it('should managed un-managed actions', (done) => {
     const dispose = run((sources: any) => {
-      const {result$$, response$, event$} = (sources.ACTIONS as ActionsSource).select();
-      read({result$$, response$, event$});
+      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource).select();
+      read({result$, response$, error$});
 
-      result$$.subscribe({
+      result$.subscribe({
         complete() {
           expect(readErrors).toHaveLength(1);
           expect(readResponses).toHaveLength(0);
-          expect(readEvents).toHaveLength(0);
-          expect(readResults).toHaveLength(0);
+          expect(readResults).toHaveLength(1);
           done();
         }
       });
