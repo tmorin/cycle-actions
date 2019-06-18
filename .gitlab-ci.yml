@@ -24,4 +24,4 @@ node:12:
       - lib/
     reports:
       junit:
-        - packages/coverage/junit.xml
+        - coverage/junit.xml
