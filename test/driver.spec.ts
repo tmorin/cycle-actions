@@ -1,6 +1,6 @@
 import run from '@cycle/run';
 import xs, {Stream} from 'xstream';
-import {Action, ActionOutput, ActionResult, ActionsSource, Event, makeActionsDriver} from '../src';
+import {Action, ActionOutput, ActionResult, ActionsSource, Event, makeActionsDriver} from '../src/driver';
 
 function syncAction(action: Action): ActionOutput {
   return {
@@ -17,7 +17,7 @@ function failedAction(): ActionOutput {
   throw new Error('an error');
 }
 
-describe('actionsDriver', () => {
+describe('driver', () => {
   let actions: Array<Action>;
   let actions$: Stream<Action>;
   let readResponses: Array<any>;
@@ -86,7 +86,7 @@ describe('actionsDriver', () => {
         action0: asyncAction, action1: syncAction
       })
     });
-    setTimeout(() => dispose(), 0);
+    setTimeout(() => dispose(), 10);
   });
 
   it('should trigger actions and filter them', (done) => {
@@ -114,7 +114,7 @@ describe('actionsDriver', () => {
         action0: asyncAction, action1: syncAction
       })
     });
-    setTimeout(() => dispose(), 0);
+    setTimeout(() => dispose(), 10);
   });
 
   it('should trigger actions and select them by category', (done) => {
@@ -140,7 +140,7 @@ describe('actionsDriver', () => {
         action0: asyncAction, action1: syncAction
       })
     });
-    setTimeout(() => dispose(), 0);
+    setTimeout(() => dispose(), 10);
   });
 
   it('should managed failed action', (done) => {
@@ -167,7 +167,7 @@ describe('actionsDriver', () => {
         action0: asyncAction, action1: failedAction
       })
     });
-    setTimeout(() => dispose(), 0);
+    setTimeout(() => dispose(), 10);
   });
 
   it('should managed un-managed actions', (done) => {
@@ -193,7 +193,7 @@ describe('actionsDriver', () => {
     }, {
       ACTIONS: makeActionsDriver()
     });
-    setTimeout(() => dispose(), 0);
+    setTimeout(() => dispose(), 10);
   });
 
 });

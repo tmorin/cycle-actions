@@ -1,27 +1,49 @@
 image: alpine:latest
 
-stages:
-  - build
-
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
 
-before_script:
-  - npm install
-
-node:12:
+build:
   image: node:12-alpine
   stage: build
   script:
+    - npm install
+    - npm run transpile
     - npm run test
-    - npm run build
+    - npm run typedoc
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
   artifacts:
     paths:
       - coverage/
       - lib/
+      - typedoc/
     reports:
       junit:
         - coverage/junit.xml
+
+npm:
+  image: node:12-alpine
+  stage: deploy
+  only:
+    - tags
+  script:
+    - npm set registry https://registry.npmjs.org
+    - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+    - npm pack
+    - npm publish --registry https://registry.npmjs.org
+  artifacts:
+    paths:
+      - tmorin-cycle-actions-*.tgz
+
+pages:
+  stage: deploy
+  only:
+    - master
+  script:
+    - mv typedoc public
+    - mv coverage/lcov-report public/coverage
+  artifacts:
+    paths:
+      - public

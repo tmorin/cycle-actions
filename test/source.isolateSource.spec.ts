@@ -1,14 +1,14 @@
-import {Action, ActionResult, ActionResultStream, ActionsSource} from '../src';
+import {Action, ActionResult, ActionResultStream, ActionsSource} from '../src/driver';
 import xs, {Stream} from 'xstream';
 
-interface Transcation {
+interface Transaction {
   request: Action,
   result: ActionResult
 }
 
 describe('ActionsSource.isolateSource', () => {
   let actions: Array<Action>;
-  let transactions: Array<Transcation>;
+  let transactions: Array<Transaction>;
   let streamOfActionResults: Stream<ActionResultStream>;
 
   beforeEach(() => {

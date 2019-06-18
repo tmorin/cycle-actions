@@ -1,4 +1,4 @@
-import {arrayEqual} from '../src/utils';
+import {arrayEqual} from '../src/driver';
 
 describe('utils', () => {
 

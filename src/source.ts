@@ -1,8 +1,26 @@
 import xs, {Stream} from 'xstream';
 import {adapt} from '@cycle/run/lib/adapt';
-import {arrayEqual} from './utils';
-import {Action, ActionResultStream, ActionStream} from './actions';
+import {Action, ActionResultStream, ActionStream, SelectedResults} from './interfaces';
 
+/**
+ * Check both array are equal.
+ * @param a1 the first array
+ * @param a2 the second array
+ * @returns true when equal otherwise false
+ * @private
+ */
+export function arrayEqual(a1: Array<string>, a2: Array<string>): boolean {
+  for (let i = 0; i < a2.length; i++) {
+    if (a1[i] !== a2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * The source of provided by the driver.
+ */
 export class ActionsSource {
 
   constructor(
@@ -12,6 +30,11 @@ export class ActionsSource {
   ) {
   }
 
+  /**
+   * Used by `@cycle/isolate` to isolate the source.
+   * @param actionSource the source
+   * @param scope the scope
+   */
   public static isolateSource(
     actionSource: ActionsSource,
     scope: string | null
@@ -30,6 +53,11 @@ export class ActionsSource {
     );
   }
 
+  /**
+   * Used by `@cycle/isolate` to isolate the sink.
+   * @param action$ the stream of actions
+   * @param scope the scope
+   */
   public static isolateSink(
     action$: ActionStream,
     scope: string | null
@@ -46,6 +74,12 @@ export class ActionsSource {
     );
   }
 
+  /**
+   * Filter results according to a predicate on the {@link Action}.
+   * @param predicate the predicate
+   * @param scope the scope
+   * @return a new {@link ActionsSource}
+   */
   public filter(
     predicate: (action: Action) => boolean,
     scope?: string
@@ -59,7 +93,12 @@ export class ActionsSource {
     );
   }
 
-  public select(category?: string) {
+  /**
+   * Extract from the streams of result streams flatten streams.
+   * @param category an optional category ({@link Action.category})
+   * @returns the selected results
+   */
+  public select(category?: string): SelectedResults {
     let result$$ = category
       ? this.result$$.filter(result$ => result$ && result$.request.category === category)
       : this.result$$;

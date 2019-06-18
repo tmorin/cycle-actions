@@ -1,23 +1,27 @@
 import xs, {Stream} from 'xstream';
 import {adapt} from '@cycle/run/lib/adapt';
-import {ActionsSource} from './ActionsSource';
-import {Action, ActionResult, ActionResultStream, Actions, ActionStream} from './actions';
+import {ActionsSource} from './source';
+import {Action, ActionHandlers, ActionResult, ActionResultStream, ActionStream} from './interfaces';
 
-export * from './ActionsSource';
-export * from './actions';
+export * from './source';
+export * from './interfaces';
 
-export function makeActionsDriver(actions: Actions = {}) {
+/**
+ * Make an ActionsDriver
+ * @param handlers the action handlers
+ * @return the action driver
+ */
+export function makeActionsDriver(handlers: ActionHandlers = {}) {
 
   async function executeAction(action: Action): Promise<ActionResult> {
-    if (!actions[action.type]) {
+    if (!handlers[action.type]) {
       throw new Error(`Unable to find the action type ${action.type}.`)
     }
     try {
       const result = await Promise.resolve(
-        actions[action.type](action)
+        handlers[action.type](action)
       );
       return {
-        request: action,
         response: undefined,
         events: [],
         ...result
@@ -62,10 +66,8 @@ export function makeActionsDriver(actions: Actions = {}) {
   return function (actions$: ActionStream, name?: string) {
     // creates a stream of result stream
     const result$$ = actions$.map(createResult$);
-    // builds the source
-    const actionsSource = new ActionsSource(result$$, name);
     // builds and returns the source
-    return actionsSource;
+    return new ActionsSource(result$$, name);
   }
 
 }

@@ -8,6 +8,8 @@
     "strict": true,
     "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "node",
+    "module": "es6",
+    "esModuleInterop": true,
     "target": "es5",
     "lib": [
       "es7"
@@ -19,6 +21,9 @@
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "typedocOptions": {
+    "out": "typedoc"
+  }
 }
 

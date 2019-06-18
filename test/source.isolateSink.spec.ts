@@ -1,4 +1,4 @@
-import {Action, ActionsSource, ActionStream} from '../src';
+import {Action, ActionsSource, ActionStream} from '../src/driver';
 import xs from 'xstream';
 
 describe('ActionsSource.isolateSink', () => {
