@@ -1,6 +1,13 @@
 # @tmorin/cycle-actions
 
+[![pipeline status](https://gitlab.com/tmorin/cycle-actions/badges/master/pipeline.svg)](https://gitlab.com/tmorin/cycle-actions/pipelines)
+[![coverage report](https://gitlab.com/tmorin/cycle-actions/badges/master/coverage.svg)](https://tmorin.gitlab.io/cycle-actions/coverage/)
+[![npm version](https://badge.fury.io/js/%40tmorin%2Fcycle-actions.svg)](https://badge.fury.io/js/%40tmorin%2Fcycle-actions)
+
+
 > A Cycle.js driver to manage actions.
+
+
 
 An action is an object defined by:
 
