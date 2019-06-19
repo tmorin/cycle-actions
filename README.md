@@ -2,8 +2,6 @@
 
 > A Cycle.js driver to manage actions.
 
-
-
 An action is an object defined by:
 
 - a `type`
@@ -11,14 +9,7 @@ An action is an object defined by:
 - an optional `category`
 
 The action is handled by an action handler.
-It's a function taking the action as argument and providing an optional output.
-The output is an object defined by:
-
-- an optional `response`
-- an optional list of `event`
-
-The response should be used to provide direct feedback to the caller.
-The events should be used to notified underlying side effects.
+It's a function taking the action as argument and providing an optional response.
 
 ```typescript
 import xs from 'xstream';
@@ -44,9 +35,8 @@ function main(sources) {
 const drivers = {
   ACTIONS: makeActionsDriver({
     async anAsyncAction(action) {
-      return {
-        response: `Hello ${action.payload}!`
-      }
+      // action is
+      return `Hello ${action.payload}!`
     }
   })
 };
