@@ -5,11 +5,11 @@ import isolate from '@cycle/isolate';
 import run from '@cycle/run';
 import {makeActionsDriver} from '../src/driver';
 
-function action1(action: Action<string>): string {
-  return action.payload;
+function action1(action: Action<string>): Promise<string> {
+  return new Promise(r => setTimeout(() => r(action.payload), 50));
 }
 
-function action2(action: Action<string>): string {
+async function action2(action: Action<string>): Promise<string> {
   return action.payload;
 }
 
@@ -83,6 +83,6 @@ describe('isolation', () => {
     }, {
       ACTIONS: makeActionsDriver({action1, action2})
     });
-    setTimeout(() => dispose(), 10);
+    setTimeout(() => dispose(), 100);
   });
 });

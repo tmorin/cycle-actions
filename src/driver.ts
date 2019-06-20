@@ -12,30 +12,30 @@ export * from './interfaces';
  */
 export function makeActionsDriver(handlers: ActionHandlers = {}) {
 
-  async function executeAction(request: Action<any>): Promise<ActionResult<any, any>> {
+  function executeAction(request: Action<any>): Promise<ActionResult<any, any>> {
     try {
       // when the handler is not found the
       if (!handlers[request.type]) {
-        return {
+        return Promise.resolve({
           request,
           error: new Error(`Unable to find the action type ${request.type}.`)
-        };
+        });
       }
 
-      const response = await Promise.resolve(
+      const response = Promise.resolve(
         handlers[request.type](request)
       );
 
-      return {
+      return Promise.resolve({
         request,
         response
-      };
+      });
 
     } catch (error) {
-      return {
+      return Promise.resolve({
         request,
         error
-      };
+      });
     }
   }
 
