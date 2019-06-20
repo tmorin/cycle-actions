@@ -3,13 +3,13 @@ import {Stream} from 'xstream';
 /**
  * An action handler executes an action.
  */
-export interface ActionHandler {
+export interface ActionHandler<I, O> {
   /**
    * The handler.
    * @param action the action
    * @return an optional output which can be embedded within a Promise
    */
-  (action: Action): any | void | Promise<any | void>
+  (action: Action<I>): O | Promise<O>
 }
 
 /**
@@ -17,13 +17,13 @@ export interface ActionHandler {
  * To be handled, the {@link Action.type} of the {@link Action} must match the key of the {@link ActionHandlers} object.
  */
 export type ActionHandlers = {
-  [k: string]: ActionHandler
+  [k: string]: ActionHandler<any, any>
 }
 
 /**
  * An action is a message which will be handled by an {@link ActionHandler}.
  */
-export interface Action {
+export interface Action<P> {
   /**
    * The type of the message.
    */
@@ -31,7 +31,7 @@ export interface Action {
   /**
    * The optional payload.
    */
-  payload?: any
+  payload?: P
   /**
    * The category is used to select action's results via {@link ActionsSource.select}.
    */
@@ -46,15 +46,15 @@ export interface Action {
 /**
  * An action result is used internally to build the source part.
  */
-export interface ActionResult {
+export interface ActionResult<I, O> {
   /**
    * The request.
    */
-  request: Action
+  request: Action<I>
   /**
    * The response related to the handled action.
    */
-  response?: any
+  response?: O
   /**
    * The error raised during the handling of the action.
    */
@@ -64,12 +64,12 @@ export interface ActionResult {
 /**
  * A stream of actions.
  */
-export type ActionStream = Stream<Action>
+export type ActionStream = Stream<Action<any>>
 
 /**
  * A stream of action result.
  */
-export interface ActionResultStream extends Stream<ActionResult> {
+export interface ActionResultStream extends Stream<ActionResult<any, any>> {
 }
 
 /**

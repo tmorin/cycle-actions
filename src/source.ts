@@ -66,7 +66,7 @@ export class ActionsSource {
       return action$;
     }
     return adapt(
-      xs.fromObservable<Action>(action$).map(action => {
+      xs.fromObservable<Action<any>>(action$).map(action => {
         action.namespace = action.namespace || [];
         action.namespace.unshift(scope);
         return action;
@@ -81,7 +81,7 @@ export class ActionsSource {
    * @return a new {@link ActionsSource}
    */
   public filter(
-    predicate: (action: Action) => boolean,
+    predicate: (action: Action<any>) => boolean,
     scope?: string
   ): ActionsSource {
 

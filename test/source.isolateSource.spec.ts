@@ -2,12 +2,12 @@ import {Action, ActionResult, ActionResultStream, ActionsSource} from '../src/dr
 import xs from 'xstream';
 
 interface Transaction {
-  request: Action,
-  result: ActionResult
+  request: Action<any>,
+  result: ActionResult<any, any>
 }
 
 describe('ActionsSource.isolateSource', () => {
-  let actions: Array<Action>;
+  let actions: Array<Action<any>>;
   let transactions: Array<Transaction>;
   let streamOfActionResults: ActionResultStream;
 
@@ -32,10 +32,10 @@ describe('ActionsSource.isolateSource', () => {
   it('should isolate source', (done) => {
     const main = new ActionsSource(streamOfActionResults);
 
-    const readActionResults: Array<ActionResult> = [];
+    const readActionResults: Array<ActionResult<any, any>> = [];
 
     ActionsSource.isolateSource(main, 'ns1').select().result$.subscribe({
-      next(result: ActionResult) {
+      next(result: ActionResult<any, any>) {
         readActionResults.push(result);
       }
     });
@@ -51,10 +51,10 @@ describe('ActionsSource.isolateSource', () => {
   it('should not isolate source when no scope', (done) => {
     const main = new ActionsSource(streamOfActionResults);
 
-    const readActionResults: Array<ActionResult> = [];
+    const readActionResults: Array<ActionResult<any, any>> = [];
 
     ActionsSource.isolateSource(main, null).select().result$.subscribe({
-      next(result: ActionResult) {
+      next(result: ActionResult<any, any>) {
         readActionResults.push(result);
       }
     });

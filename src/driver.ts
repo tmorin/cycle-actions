@@ -12,7 +12,7 @@ export * from './interfaces';
  */
 export function makeActionsDriver(handlers: ActionHandlers = {}) {
 
-  async function executeAction(request: Action): Promise<ActionResult> {
+  async function executeAction(request: Action<any>): Promise<ActionResult<any, any>> {
     try {
       // when the handler is not found the
       if (!handlers[request.type]) {
