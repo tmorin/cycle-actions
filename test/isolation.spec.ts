@@ -30,14 +30,14 @@ describe('isolation', () => {
     const dispose = run((sources: MainSources): MainSkins => {
 
       function Child1(sources: MainSources): MainSkins {
-        sources.ACTIONS.select('category1').result$.subscribe({
+        sources.ACTIONS.select('categoryA').result$.subscribe({
           next(result) {
             readResultChild1[result.request.type].push(result);
           }
         });
         return {
           ACTIONS: xs.of(
-            {type: 'action1', payload: 'action1', category: 'category1'},
+            {type: 'action1', payload: 'action1', category: 'categoryA'},
             {type: 'action1', payload: 'action1 bis'}
           )
         };
@@ -50,7 +50,10 @@ describe('isolation', () => {
           }
         });
         return {
-          ACTIONS: xs.of({type: 'action2', payload: 'action2'})
+          ACTIONS: xs.of(
+            {type: 'action2', payload: 'action2', category: 'categoryA'},
+            {type: 'action2', payload: 'action2 bis'}
+          )
         };
       }
 
@@ -63,10 +66,10 @@ describe('isolation', () => {
           expect(readResultChild1.action2).toHaveLength(0);
 
           expect(readResultChild2.action1).toHaveLength(0);
-          expect(readResultChild2.action2).toHaveLength(1);
+          expect(readResultChild2.action2).toHaveLength(2);
 
           expect(readResultMain.action1).toHaveLength(2);
-          expect(readResultMain.action2).toHaveLength(1);
+          expect(readResultMain.action2).toHaveLength(2);
           done();
         }
       });
