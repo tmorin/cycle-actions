@@ -23,7 +23,7 @@ export type ActionHandlers = {
 /**
  * An action is a message which will be handled by an {@link ActionHandler}.
  */
-export interface Action<P> {
+export interface Action<I> {
   /**
    * The type of the message.
    */
@@ -31,7 +31,7 @@ export interface Action<P> {
   /**
    * The optional payload.
    */
-  payload?: P
+  payload?: I
   /**
    * The category is used to select action's results via {@link ActionsSource.select}.
    */
@@ -58,18 +58,7 @@ export interface ActionResult<I, O> {
   /**
    * The error raised during the handling of the action.
    */
-  error?: any
-}
-
-/**
- * A stream of actions.
- */
-export type ActionStream = Stream<Action<any>>
-
-/**
- * A stream of action result.
- */
-export interface ActionResultStream extends Stream<ActionResult<any, any>> {
+  error?: Error
 }
 
 /**
@@ -79,7 +68,7 @@ export interface SelectedResults {
   /**
    * The stream of results.
    */
-  result$: ActionResultStream
+  result$: Stream<ActionResult<any, any>>
   /**
    * The stream of responses.
    */
@@ -87,5 +76,5 @@ export interface SelectedResults {
   /**
    * The stream of errors.
    */
-  error$: Stream<any>
+  error$: Stream<Error>
 }

@@ -1,6 +1,6 @@
 import {ActionsSource} from './source';
-import {Action, ActionHandlers, ActionResult, ActionStream} from './interfaces';
-import xs from 'xstream';
+import {Action, ActionHandlers, ActionResult} from './interfaces';
+import xs, {Stream} from 'xstream';
 
 export * from './source';
 export * from './interfaces';
@@ -39,7 +39,7 @@ export function makeActionsDriver(handlers: ActionHandlers = {}) {
     }
   }
 
-  return function (actions$: ActionStream, name?: string) {
+  return function (actions$: Stream<Action<any>>, name?: string) {
     // creates a stream of result stream
     const result$ = actions$.map(
       action => xs.fromPromise(

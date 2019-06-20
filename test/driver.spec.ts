@@ -2,11 +2,11 @@ import run from '@cycle/run';
 import xs, {Stream} from 'xstream';
 import {Action, ActionResult, ActionsSource, makeActionsDriver, SelectedResults} from '../src/driver';
 
-function syncAction(action: Action<string>): any {
-  return action.payload
+function syncAction(action: Action<string>): string {
+  return action.payload || '';
 }
 
-async function asyncAction(action: Action<string>): Promise<any> {
+async function asyncAction(action: Action<string>): Promise<string> {
   return syncAction(action);
 }
 
@@ -15,15 +15,15 @@ function failedAction(): any {
 }
 
 describe('driver', () => {
-  let actions: Array<Action<any>>;
-  let actions$: Stream<Action<any>>;
-  let readResponses: Array<any>;
+  let actions: Array<Action<string>>;
+  let actions$: Stream<Action<string>>;
+  let readResponses: Array<string>;
   let readErrors: Array<any>;
-  let readResults: Array<ActionResult<any, any>>;
+  let readResults: Array<ActionResult<string, string>>;
 
   function read({result$, response$, error$}: SelectedResults) {
     response$.subscribe({
-      next(response: any) {
+      next(response: string) {
         readResponses.push(response);
       }
     });
@@ -33,8 +33,8 @@ describe('driver', () => {
       }
     });
     result$.subscribe({
-      next(result: ActionResult<any, any>) {
-        readResults.push(result)
+      next(result: ActionResult<string, string>) {
+        readResults.push(result);
       }
     })
   }

@@ -1,6 +1,6 @@
-import xs from 'xstream';
+import xs, {Stream} from 'xstream';
 import {adapt} from '@cycle/run/lib/adapt';
-import {Action, ActionResultStream, ActionStream, SelectedResults} from './interfaces';
+import {Action, ActionResult, SelectedResults} from './interfaces';
 
 /**
  * Check both array are equal.
@@ -24,7 +24,7 @@ export function arrayEqual(a1: Array<string>, a2: Array<string>): boolean {
 export class ActionsSource {
 
   constructor(
-    public result$: ActionResultStream,
+    public result$: Stream<ActionResult<any, any>>,
     public readonly name?: string,
     public readonly namespace: Array<string> = []
   ) {
@@ -35,21 +35,19 @@ export class ActionsSource {
    * @param actionSource the source
    * @param scope the scope
    */
-  public static isolateSource(
+  public isolateSource(
     actionSource: ActionsSource,
     scope: string | null
   ) {
     if (scope === null) {
       return actionSource;
     }
-    return actionSource.filter(
-      (action) =>
-        Array.isArray(action.namespace) &&
-        arrayEqual(
-          action.namespace,
-          (actionSource).namespace.concat(scope)
-        ),
-      scope
+    return actionSource.filter((action) =>
+      Array.isArray(action.namespace) &&
+      arrayEqual(
+        action.namespace,
+        (actionSource).namespace.concat(scope)
+      ), scope
     );
   }
 
@@ -58,10 +56,10 @@ export class ActionsSource {
    * @param action$ the stream of actions
    * @param scope the scope
    */
-  public static isolateSink(
-    action$: ActionStream,
+  public isolateSink(
+    action$: Stream<Action<any>>,
     scope: string | null
-  ): ActionStream {
+  ): Stream<Action<any>> {
     if (scope === null) {
       return action$;
     }
