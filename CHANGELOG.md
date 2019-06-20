@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://gitlab.com/tmorin/cycle-actions/compare/v0.3.1...v0.3.2) (2019-06-20)
+
+
+### Bug Fixes
+
+* **action:** results of asynchronous actions were not skipped ([a399c3b](https://gitlab.com/tmorin/cycle-actions/commit/a399c3b))
+
+
+
 ### [0.3.1](https://gitlab.com/tmorin/cycle-actions/compare/v0.3.0...v0.3.1) (2019-06-20)
 
 
