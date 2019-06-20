@@ -22,14 +22,11 @@ export function makeActionsDriver(handlers: ActionHandlers = {}) {
         });
       }
 
-      const response = Promise.resolve(
-        handlers[request.type](request)
-      );
-
-      return Promise.resolve({
+      const response = handlers[request.type](request);
+      return Promise.resolve(response).then(response => ({
         request,
         response
-      });
+      }));
 
     } catch (error) {
       return Promise.resolve({
@@ -41,11 +38,20 @@ export function makeActionsDriver(handlers: ActionHandlers = {}) {
 
   return function (actions$: Stream<Action<any>>, name?: string) {
     // creates a stream of result stream
-    const result$ = actions$.map(
-      action => xs.fromPromise(
-        executeAction(action)
-      )
-    ).flatten();
+    const result$ = xs.create<ActionResult<any, any>>({
+      start(listener) {
+        actions$.subscribe({
+          next(action) {
+            executeAction(action).then(result => listener.next(result));
+          },
+          complete() {
+            listener.complete();
+          }
+        });
+      },
+      stop() {
+      }
+    });
 
     // adds listener to enforce the execution of action
     result$.addListener({

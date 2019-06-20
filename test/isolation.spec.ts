@@ -6,11 +6,11 @@ import run from '@cycle/run';
 import {makeActionsDriver} from '../src/driver';
 
 function action1(action: Action<string>): Promise<string> {
-  return new Promise(r => setTimeout(() => r(action.payload), 50));
+  return new Promise(r => setTimeout(() => r(action.payload), 25));
 }
 
-async function action2(action: Action<string>): Promise<string> {
-  return action.payload;
+function action2(action: Action<string>): Promise<string> {
+  return new Promise(r => setTimeout(() => r(action.payload), 75));
 }
 
 interface MainSources {
@@ -83,6 +83,6 @@ describe('isolation', () => {
     }, {
       ACTIONS: makeActionsDriver({action1, action2})
     });
-    setTimeout(() => dispose(), 100);
+    setTimeout(() => dispose(), 200);
   });
 });
