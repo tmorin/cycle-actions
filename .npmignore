@@ -1,5 +1,5 @@
+.github
 .idea/
 coverage/
 test/
 .editorconfig
-.gitlab-ci.yml

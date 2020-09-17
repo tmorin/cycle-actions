@@ -2,48 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [0.3.3](https://gitlab.com/tmorin/cycle-actions/compare/v0.3.2...v0.3.3) (2019-06-20)
+### [0.3.3](https://github.com/tmorin/cycle-actions/compare/v0.3.2...v0.3.3) (2019-06-20)
 
 
 ### Bug Fixes
 
-* **action:** results of asynchronous actions were not skipped ([3d12edb](https://gitlab.com/tmorin/cycle-actions/commit/3d12edb))
+* **action:** results of asynchronous actions were not skipped ([3d12edb](https://github.com/tmorin/cycle-actions/commit/3d12edb))
 
 
 
-### [0.3.2](https://gitlab.com/tmorin/cycle-actions/compare/v0.3.1...v0.3.2) (2019-06-20)
-
-
-### Bug Fixes
-
-* **action:** results of asynchronous actions were not skipped ([a399c3b](https://gitlab.com/tmorin/cycle-actions/commit/a399c3b))
-
-
-
-### [0.3.1](https://gitlab.com/tmorin/cycle-actions/compare/v0.3.0...v0.3.1) (2019-06-20)
+### [0.3.2](https://github.com/tmorin/cycle-actions/compare/v0.3.1...v0.3.2) (2019-06-20)
 
 
 ### Bug Fixes
 
-* **isolation:** the methods to isolate sources and sinks were static :( ([ed0112b](https://gitlab.com/tmorin/cycle-actions/commit/ed0112b))
+* **action:** results of asynchronous actions were not skipped ([a399c3b](https://github.com/tmorin/cycle-actions/commit/a399c3b))
 
 
 
-## [0.3.0](https://gitlab.com/tmorin/cycle-actions/compare/v0.2.0...v0.3.0) (2019-06-20)
+### [0.3.1](https://github.com/tmorin/cycle-actions/compare/v0.3.0...v0.3.1) (2019-06-20)
+
+
+### Bug Fixes
+
+* **isolation:** the methods to isolate sources and sinks were static :( ([ed0112b](https://github.com/tmorin/cycle-actions/commit/ed0112b))
+
+
+
+## [0.3.0](https://github.com/tmorin/cycle-actions/compare/v0.2.0...v0.3.0) (2019-06-20)
 
 
 ### Features
 
-* **api:** add generic for action input and output ([e5ed08c](https://gitlab.com/tmorin/cycle-actions/commit/e5ed08c))
+* **api:** add generic for action input and output ([e5ed08c](https://github.com/tmorin/cycle-actions/commit/e5ed08c))
 
 
 
-## [0.2.0](https://gitlab.com/tmorin/cycle-actions/compare/v0.1.0...v0.2.0) (2019-06-18)
+## [0.2.0](https://github.com/tmorin/cycle-actions/compare/v0.1.0...v0.2.0) (2019-06-18)
 
 
 ### Features
 
-* work only with stream of result ([7ba20a2](https://gitlab.com/tmorin/cycle-actions/commit/7ba20a2))
+* work only with stream of result ([7ba20a2](https://github.com/tmorin/cycle-actions/commit/7ba20a2))
 
 
 
@@ -52,4 +52,4 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* handle sync and async actions ([b08d243](https://gitlab.com/tmorin/cycle-actions/commit/b08d243))
+* handle sync and async actions ([b08d243](https://github.com/tmorin/cycle-actions/commit/b08d243))

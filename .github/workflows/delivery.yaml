@@ -1,0 +1,33 @@
+name: Delivery
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+      - '!v*.*.*-*'
+
+jobs:
+  build:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@tmorin'
+      - name: install dependencies
+        run: npm ci
+      - name: test
+        run: npm run test
+      - name: transpile
+        run: npm run transpile
+      - name: documentation
+        run: npm run documentation
+      - name: publish module
+        run: npm publish --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: publish documentation
+        run: npm run documentation:publish

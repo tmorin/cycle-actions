@@ -1,5 +1,9 @@
 # @tmorin/cycle-actions
 
+[![npm version](https://badge.fury.io/js/%40tmorin%2Fcycle-actions.svg)](https://badge.fury.io/js/%40tmorin%2Fcycle-actions)
+[![Integration](https://github.com/tmorin/cycle-actions/workflows/Integration/badge.svg?branch=master)](https://github.com/tmorin/cycle-actions/actions?query=workflow%3AIntegration+branch%3Amaster)
+[![api](https://img.shields.io/badge/-api-informational.svg)](https://tmorin.github.io/cycle-actions/)
+
 > A Cycle.js driver to manage actions.
 
 An action is an object defined by:
