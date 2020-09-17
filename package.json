@@ -32,7 +32,7 @@
     "alpha:publish": "git push --all && npm publish --tag canary",
     "documentation": "typedoc src",
     "documentation:publish": "cd typedoc && git init && git commit --allow-empty -m 'update site' && git checkout -b gh-pages && git add . && git commit -am 'update site, [skip ci]' && git push git@github.com:tmorin/cycle-actions gh-pages --force && cd ..",
-    "release": "npm run build && standard-version",
+    "release": "npm run transpile && standard-version",
     "release:publish": "git push --tags && git push --all",
     "test": "JEST_JUNIT_OUTPUT_DIR='./coverage/junit' jest --coverage --ci --reporters=default --reporters=jest-junit",
     "test:watch": "jest --watchAll",
