@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.4](https://github.com/tmorin/cycle-actions/compare/v0.3.3...v0.3.4) (2020-09-17)
+
+
+### Features
+
+* switch to github ([4392167](https://github.com/tmorin/cycle-actions/commit/4392167a4621d2129ce66a61d5a88cb63f83ccf3))
+
 ### [0.3.3](https://github.com/tmorin/cycle-actions/compare/v0.3.2...v0.3.3) (2019-06-20)
 
 
