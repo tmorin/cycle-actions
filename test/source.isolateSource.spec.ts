@@ -2,14 +2,14 @@ import {Action, ActionResult, ActionsSource} from '../src/driver';
 import xs, {Stream} from 'xstream';
 
 interface Transaction {
-  request: Action<any>,
-  result: ActionResult<any, any>
+  request: Action<string>,
+  result: ActionResult<string, string>
 }
 
 describe('ActionsSource.isolateSource', () => {
-  let actions: Array<Action<any>>;
+  let actions: Array<Action<string>>;
   let transactions: Array<Transaction>;
-  let streamOfActionResults: Stream<ActionResult<any, any>>;
+  let streamOfActionResults: Stream<ActionResult<string, string>>;
 
   beforeEach(() => {
     actions = [
@@ -32,10 +32,10 @@ describe('ActionsSource.isolateSource', () => {
   it('should isolate source', (done) => {
     const main = new ActionsSource(streamOfActionResults);
 
-    const readActionResults: Array<ActionResult<any, any>> = [];
+    const readActionResults: Array<ActionResult<string, string>> = [];
 
     new ActionsSource(null).isolateSource(main, 'ns1').select().result$.subscribe({
-      next(result: ActionResult<any, any>) {
+      next(result: ActionResult<string, string>) {
         readActionResults.push(result);
       }
     });
@@ -51,10 +51,10 @@ describe('ActionsSource.isolateSource', () => {
   it('should not isolate source when no scope', (done) => {
     const main = new ActionsSource(streamOfActionResults);
 
-    const readActionResults: Array<ActionResult<any, any>> = [];
+    const readActionResults: Array<ActionResult<string, string>> = [];
 
     new ActionsSource(null).isolateSource(main, null).select().result$.subscribe({
-      next(result: ActionResult<any, any>) {
+      next(result: ActionResult<string, string>) {
         readActionResults.push(result);
       }
     });

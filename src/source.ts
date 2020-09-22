@@ -21,10 +21,10 @@ export function arrayEqual(a1: Array<string>, a2: Array<string>): boolean {
 /**
  * The source of provided by the driver.
  */
-export class ActionsSource {
+export class ActionsSource<I, O> {
 
   constructor(
-    public result$: Stream<ActionResult<any, any>>,
+    public result$: Stream<ActionResult<I, O>>,
     public readonly name?: string,
     public readonly namespace: Array<string> = []
   ) {
@@ -36,7 +36,7 @@ export class ActionsSource {
    * @param scope the scope
    */
   public isolateSource(
-    actionSource: ActionsSource,
+    actionSource: ActionsSource<I, O>,
     scope: string | null
   ) {
     if (scope === null) {
@@ -57,7 +57,7 @@ export class ActionsSource {
    * @param scope the scope
    */
   public isolateSink(
-    action$: Stream<Action<any>>,
+    action$: Stream<Action<I>>,
     scope: string | null
   ): Stream<Action<any>> {
     if (scope === null) {
@@ -79,9 +79,9 @@ export class ActionsSource {
    * @return a new {@link ActionsSource}
    */
   public filter(
-    predicate: (action: Action<any>) => boolean,
+    predicate: (action: Action<I>) => boolean,
     scope?: string
-  ): ActionsSource {
+  ): ActionsSource<I, O> {
 
     const filteredResponse$$ = this.result$.filter(result => predicate(result.request));
     return new ActionsSource(
@@ -96,7 +96,7 @@ export class ActionsSource {
    * @param category an optional category ({@link Action.category})
    * @returns the selected results
    */
-  public select(category?: string): SelectedResults {
+  public select(category?: string): SelectedResults<I, O> {
     let result$ = category
       ? this.result$.filter(result => result && result.request.category === category)
       : this.result$;

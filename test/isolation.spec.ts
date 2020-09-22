@@ -14,11 +14,11 @@ function action2(action: Action<string>): Promise<string> {
 }
 
 interface MainSources {
-  ACTIONS: ActionsSource
+  ACTIONS: ActionsSource<string, string>
 }
 
 interface MainSkins {
-  ACTIONS: Stream<Action<any>>
+  ACTIONS: Stream<Action<string>>
 }
 
 describe('isolation', () => {

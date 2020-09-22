@@ -10,9 +10,9 @@ export * from './interfaces';
  * @param handlers the action handlers
  * @return the action driver
  */
-export function makeActionsDriver(handlers: ActionHandlers = {}) {
+export function makeActionsDriver<I, O>(handlers: ActionHandlers<I, O> = {}) {
 
-  function executeAction(request: Action<any>): Promise<ActionResult<any, any>> {
+  function executeAction(request: Action<I>): Promise<ActionResult<I, O>> {
     try {
       // when the handler is not found the
       if (!handlers[request.type]) {
@@ -36,9 +36,9 @@ export function makeActionsDriver(handlers: ActionHandlers = {}) {
     }
   }
 
-  return function (actions$: Stream<Action<any>>, name?: string) {
+  return function (actions$: Stream<Action<I>>, name?: string) {
     // creates a stream of result stream
-    const result$ = xs.create<ActionResult<any, any>>({
+    const result$ = xs.create<ActionResult<I, O>>({
       start(listener) {
         actions$.subscribe({
           next(action) {

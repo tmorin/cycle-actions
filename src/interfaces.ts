@@ -16,8 +16,8 @@ export interface ActionHandler<I, O> {
  * The map of action handlers.
  * To be handled, the {@link Action.type} of the {@link Action} must match the key of the {@link ActionHandlers} object.
  */
-export type ActionHandlers = {
-  [k: string]: ActionHandler<any, any>
+export type ActionHandlers<I, O> = {
+  [k: string]: ActionHandler<I, O>
 }
 
 /**
@@ -64,15 +64,15 @@ export interface ActionResult<I, O> {
 /**
  * A subset of results.
  */
-export interface SelectedResults {
+export interface SelectedResults<I, O> {
   /**
    * The stream of results.
    */
-  result$: Stream<ActionResult<any, any>>
+  result$: Stream<ActionResult<I, O>>
   /**
    * The stream of responses.
    */
-  response$: Stream<any>
+  response$: Stream<O>
   /**
    * The stream of errors.
    */

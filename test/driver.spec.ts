@@ -2,6 +2,10 @@ import run from '@cycle/run';
 import xs, {Stream} from 'xstream';
 import {Action, ActionResult, ActionsSource, makeActionsDriver, SelectedResults} from '../src/driver';
 
+export type TestSources = {
+  ACTIONS: ActionsSource<string, string>
+}
+
 function syncAction(action: Action<string>): string {
   return action.payload || '';
 }
@@ -21,7 +25,7 @@ describe('driver', () => {
   let readErrors: Array<any>;
   let readResults: Array<ActionResult<string, string>>;
 
-  function read({result$, response$, error$}: SelectedResults) {
+  function read({result$, response$, error$}: SelectedResults<string, string>) {
     response$.subscribe({
       next(response: string) {
         readResponses.push(response);
@@ -52,8 +56,8 @@ describe('driver', () => {
   });
 
   it('should trigger action and select results', (done) => {
-    const dispose = run((sources: any) => {
-      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource).select();
+    const dispose = run((sources: TestSources) => {
+      const {result$, response$, error$} = sources.ACTIONS.select();
       read({result$, response$, error$});
 
       result$.subscribe({
@@ -78,8 +82,8 @@ describe('driver', () => {
   });
 
   it('should trigger actions and filter them', (done) => {
-    const dispose = run((sources: any) => {
-      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource)
+    const dispose = run((sources: TestSources) => {
+      const {result$, response$, error$} = sources.ACTIONS
         .filter(action => action.type === 'action0')
         .select();
       read({result$, response$, error$});
@@ -106,8 +110,8 @@ describe('driver', () => {
   });
 
   it('should trigger actions and select them by category', (done) => {
-    const dispose = run((sources: any) => {
-      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource).select('category0');
+    const dispose = run((sources: TestSources) => {
+      const {result$, response$, error$} = sources.ACTIONS.select('category0');
       read({result$, response$, error$});
 
       result$.subscribe({
@@ -132,8 +136,8 @@ describe('driver', () => {
   });
 
   it('should managed failed action', (done) => {
-    const dispose = run((sources: any) => {
-      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource)
+    const dispose = run((sources: TestSources) => {
+      const {result$, response$, error$} = sources.ACTIONS
         .filter(action => action.type === 'action1').select();
       read({result$, response$, error$});
 
@@ -159,8 +163,8 @@ describe('driver', () => {
   });
 
   it('should managed un-managed actions', (done) => {
-    const dispose = run((sources: any) => {
-      const {result$, response$, error$} = (sources.ACTIONS as ActionsSource).select();
+    const dispose = run((sources: TestSources) => {
+      const {result$, response$, error$} = sources.ACTIONS.select();
       read({result$, response$, error$});
 
       result$.subscribe({
@@ -173,7 +177,7 @@ describe('driver', () => {
       });
 
       return {
-        ACTIONS: xs.of<Action<any>>({
+        ACTIONS: xs.of<Action<string>>({
           type: 'unknown'
         })
       };

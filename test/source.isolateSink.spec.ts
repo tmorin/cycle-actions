@@ -2,8 +2,8 @@ import {Action, ActionsSource} from '../src/driver';
 import xs, {Stream} from 'xstream';
 
 describe('ActionsSource.isolateSink', () => {
-  let actions: Array<Action<any>>;
-  let streamOfActions: Stream<Action<any>>;
+  let actions: Array<Action<string>>;
+  let streamOfActions: Stream<Action<string>>;
 
   beforeEach(() => {
     actions = [
@@ -15,7 +15,7 @@ describe('ActionsSource.isolateSink', () => {
 
   it('should isolate source', (done) => {
     const isolatedStream = new ActionsSource(null).isolateSink(streamOfActions, 'ns1');
-    const readActions: Array<Action<any>> = [];
+    const readActions: Array<Action<string>> = [];
     isolatedStream.subscribe({
       next(action) {
         readActions.push(action);
@@ -33,7 +33,7 @@ describe('ActionsSource.isolateSink', () => {
 
   it('should not isolate source when no scope', (done) => {
     const isolatedStream = new ActionsSource(null).isolateSink(streamOfActions, null);
-    const readActions: Array<Action<any>> = [];
+    const readActions: Array<Action<string>> = [];
     isolatedStream.subscribe({
       next(action) {
         readActions.push(action);
