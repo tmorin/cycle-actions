@@ -1,6 +1,6 @@
 {
   "name": "@tmorin/cycle-actions",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "A Cycle.js driver to manage actions.",
   "keywords": [
     "cycle",
