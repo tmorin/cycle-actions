@@ -23,6 +23,10 @@
     "src/**/*"
   ],
   "typedocOptions": {
+    "entryPoint": "'driver'",
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "mode": "file",
     "out": "typedoc"
   }
 }
