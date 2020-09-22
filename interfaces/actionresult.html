@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SelectedResults | @tmorin/cycle-actions</title>
+	<title>ActionResult | @tmorin/cycle-actions</title>
 	<meta name="description" content="Documentation for @tmorin/cycle-actions">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_interfaces_.html">&quot;interfaces&quot;</a>
-				</li>
-				<li>
-					<a href="_interfaces_.selectedresults.html">SelectedResults</a>
+					<a href="actionresult.html">ActionResult</a>
 				</li>
 			</ul>
-			<h1>Interface SelectedResults</h1>
+			<h1>Interface ActionResult&lt;I, O&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -72,15 +69,26 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A subset of results.</p>
+						<p>An action result is used internally to build the source part.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>I</h4>
+					</li>
+					<li>
+						<h4>O</h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SelectedResults</span>
+						<span class="target">ActionResult</span>
 					</li>
 				</ul>
 			</section>
@@ -91,9 +99,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.selectedresults.html#error_" class="tsd-kind-icon">error$</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.selectedresults.html#response_" class="tsd-kind-icon">response$</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.selectedresults.html#result_" class="tsd-kind-icon">result$</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="actionresult.html#error" class="tsd-kind-icon">error</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="actionresult.html#request" class="tsd-kind-icon">request</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="actionresult.html#response" class="tsd-kind-icon">response</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,47 +110,47 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="error_" class="tsd-anchor"></a>
-					<h3>error$</h3>
-					<div class="tsd-signature tsd-kind-icon">error$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Stream</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="error" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> error</h3>
+					<div class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Error</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tmorin/cycle-actions/blob/3222ea5/src/interfaces.ts#L79">interfaces.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/tmorin/cycle-actions/blob/2249df3/src/interfaces.ts#L61">interfaces.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The stream of errors.</p>
+							<p>The error raised during the handling of the action.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="response_" class="tsd-anchor"></a>
-					<h3>response$</h3>
-					<div class="tsd-signature tsd-kind-icon">response$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Stream</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="request" class="tsd-anchor"></a>
+					<h3>request</h3>
+					<div class="tsd-signature tsd-kind-icon">request<span class="tsd-signature-symbol">:</span> <a href="action.html" class="tsd-signature-type">Action</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">I</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tmorin/cycle-actions/blob/3222ea5/src/interfaces.ts#L75">interfaces.ts:75</a></li>
+							<li>Defined in <a href="https://github.com/tmorin/cycle-actions/blob/2249df3/src/interfaces.ts#L53">interfaces.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The stream of responses.</p>
+							<p>The request.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="result_" class="tsd-anchor"></a>
-					<h3>result$</h3>
-					<div class="tsd-signature tsd-kind-icon">result$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Stream</span><span class="tsd-signature-symbol">&lt;</span><a href="_interfaces_.actionresult.html" class="tsd-signature-type">ActionResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="response" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> response</h3>
+					<div class="tsd-signature tsd-kind-icon">response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">O</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tmorin/cycle-actions/blob/3222ea5/src/interfaces.ts#L71">interfaces.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/tmorin/cycle-actions/blob/2249df3/src/interfaces.ts#L57">interfaces.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The stream of results.</p>
+							<p>The response related to the handled action.</p>
 						</div>
 					</div>
 				</section>
@@ -154,48 +162,45 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_driver_.html">&quot;driver&quot;</a>
-					</li>
-					<li class="current tsd-kind-module">
-						<a href="../modules/_interfaces_.html">&quot;interfaces&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_source_.html">&quot;source&quot;</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="_interfaces_.action.html" class="tsd-kind-icon">Action</a>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="../classes/actionssource.html" class="tsd-kind-icon">Actions<wbr>Source</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="_interfaces_.actionhandler.html" class="tsd-kind-icon">Action<wbr>Handler</a>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="action.html" class="tsd-kind-icon">Action</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="_interfaces_.actionresult.html" class="tsd-kind-icon">Action<wbr>Result</a>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="actionhandler.html" class="tsd-kind-icon">Action<wbr>Handler</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_interfaces_.selectedresults.html" class="tsd-kind-icon">Selected<wbr>Results</a>
+					<li class="current tsd-kind-interface tsd-has-type-parameter">
+						<a href="actionresult.html" class="tsd-kind-icon">Action<wbr>Result</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_interfaces_.selectedresults.html#error_" class="tsd-kind-icon">error$</a>
+								<a href="actionresult.html#error" class="tsd-kind-icon">error</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_interfaces_.selectedresults.html#response_" class="tsd-kind-icon">response$</a>
+								<a href="actionresult.html#request" class="tsd-kind-icon">request</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_interfaces_.selectedresults.html#result_" class="tsd-kind-icon">result$</a>
+								<a href="actionresult.html#response" class="tsd-kind-icon">response</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_interfaces_.html#actionhandlers" class="tsd-kind-icon">Action<wbr>Handlers</a>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="selectedresults.html" class="tsd-kind-icon">Selected<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../globals.html#actionhandlers" class="tsd-kind-icon">Action<wbr>Handlers</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../globals.html#makeactionsdriver" class="tsd-kind-icon">make<wbr>Actions<wbr>Driver</a>
 					</li>
 				</ul>
 			</nav>
@@ -207,16 +212,12 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>
 		</div>
 	</div>
